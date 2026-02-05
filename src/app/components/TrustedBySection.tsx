@@ -1,6 +1,9 @@
 import { LogoCloud } from "@/app/components/ui/logo-cloud";
-import verticalGardenLogo from 'figma:asset/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
-import in12Logo from 'figma:asset/3e7706533a795ffbcf0137b960921ddceceeebbf.png';
+import verticalGardenLogo from '../../assets/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
+import in12Logo from '../../assets/3e7706533a795ffbcf0137b960921ddceceeebbf.png';
+import nvidiaLogo from '../../assets/nvidia-wordmark-light.svg';
+import supabaseLogo from '../../assets/supabase-wordmark-light.svg';
+import openaiLogo from '../../assets/openai-wordmark-light.svg';
 
 const clientLogos = [
   {
@@ -12,15 +15,15 @@ const clientLogos = [
     alt: "IN12 Residences",
   },
   {
-    src: "https://svgl.app/library/nvidia-wordmark-light.svg",
+    src: nvidiaLogo,
     alt: "Client 1",
   },
   {
-    src: "https://svgl.app/library/supabase_wordmark_light.svg",
+    src: supabaseLogo,
     alt: "Client 2",
   },
   {
-    src: "https://svgl.app/library/openai_wordmark_light.svg",
+    src: openaiLogo,
     alt: "Client 3",
   },
 ];

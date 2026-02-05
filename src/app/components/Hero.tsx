@@ -3,12 +3,12 @@ import { Button } from '@/app/components/ui/neon-button';
 import { InfiniteSlider } from "@/app/components/ui/infinite-slider";
 import { WebGLShader } from '@/app/components/ui/web-gl-shader';
 import { useTranslation } from '@/app/contexts/TranslationContext';
-import verticalGardenLogo from 'figma:asset/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
-import ittEsMostLogo from 'figma:asset/6f0721fa96378a2186aced2f147c30e405b146ed.png';
-import terracoreLogo from 'figma:asset/65dbf0b14781d9fe8bfa012cdfabe45b24ff694a.png';
-import transaLogo from 'figma:asset/1f2c6cbd4ba989ebafcc93e1dbccd479c77422e3.png';
-import indecisiveLogo from 'figma:asset/2312db1e9232307c130a38be542b58c48c042cbf.png';
-import in12Logo from 'figma:asset/3e7706533a795ffbcf0137b960921ddceceeebbf.png';
+import verticalGardenLogo from '../../assets/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
+import ittEsMostLogo from '../../assets/6f0721fa96378a2186aced2f147c30e405b146ed.png';
+import terracoreLogo from '../../assets/65dbf0b14781d9fe8bfa012cdfabe45b24ff694a.png';
+import transaLogo from '../../assets/1f2c6cbd4ba989ebafcc93e1dbccd479c77422e3.png';
+import indecisiveLogo from '../../assets/2312db1e9232307c130a38be542b58c48c042cbf.png';
+import in12Logo from '../../assets/3e7706533a795ffbcf0137b960921ddceceeebbf.png';
 
 export function Hero() {
   const scrollToContact = () => {

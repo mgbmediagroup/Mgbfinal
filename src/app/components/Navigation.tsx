@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Globe } from 'lucide-react';
 import { useTranslation } from '@/app/contexts/TranslationContext';
-import mgbLogo from 'figma:asset/cc513d506bfbac231316656f549d5f817feddc6b.png';
+import mgbLogo from '../../assets/cc513d506bfbac231316656f549d5f817feddc6b.png';
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);

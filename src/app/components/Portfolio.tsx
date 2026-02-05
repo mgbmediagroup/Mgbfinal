@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/app/contexts/TranslationContext';
-import verticalFutureImage from 'figma:asset/36157d2c89a12ef778fad46849a5b9ac61af4df7.png';
-import ittEsMostImage from 'figma:asset/c9db3ba311e2575f64e2b1a927622c82fe26ed99.png';
-import terracoreImage from 'figma:asset/db20bc152c084762c5de57dcd523f3f2b21499a5.png';
-import audiImage from 'figma:asset/d9f991ef2e6f6b13e1fd9bbc19376b8763322833.png';
-import transaImage from 'figma:asset/b327579a418187cb2e752d8779bdcae0adff4c29.png';
-import indecisiveCreationsImage from 'figma:asset/97416f094fc30e265119e93d91a7c007e46b73c9.png';
-import in12Image from 'figma:asset/bbeef0dd88be6e41dd29b2c7cae75eac2f0e2f3e.png';
+import verticalFutureImage from '../../assets/36157d2c89a12ef778fad46849a5b9ac61af4df7.png';
+import ittEsMostImage from '../../assets/c9db3ba311e2575f64e2b1a927622c82fe26ed99.png';
+import terracoreImage from '../../assets/db20bc152c084762c5de57dcd523f3f2b21499a5.png';
+import audiImage from '../../assets/d9f991ef2e6f6b13e1fd9bbc19376b8763322833.png';
+import transaImage from '../../assets/b327579a418187cb2e752d8779bdcae0adff4c29.png';
+import indecisiveCreationsImage from '../../assets/97416f094fc30e265119e93d91a7c007e46b73c9.png';
+import in12Image from '../../assets/bbeef0dd88be6e41dd29b2c7cae75eac2f0e2f3e.png';
 import { ArrowUpRight } from 'lucide-react';
 
 interface Project {

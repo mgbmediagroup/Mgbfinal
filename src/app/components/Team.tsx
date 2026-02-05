@@ -1,6 +1,6 @@
-import founderImage from 'figma:asset/75b1edfffedd8bb289f184bd6dd593c880ae3dea.png';
-import cofounderImage from 'figma:asset/ef6475b27fb1189a73a520423aa7993402e91860.png';
-import cofounderImage2 from 'figma:asset/10fd501e231817f2430e91aa389b966a3675b01d.png';
+import founderImage from '../../assets/75b1edfffedd8bb289f184bd6dd593c880ae3dea.png';
+import cofounderImage from '../../assets/ef6475b27fb1189a73a520423aa7993402e91860.png';
+import cofounderImage2 from '../../assets/10fd501e231817f2430e91aa389b966a3675b01d.png';
 import { useTranslation } from '@/app/contexts/TranslationContext';
 
 export function Team() {
