@@ -1,16 +1,16 @@
 // Simple test script to check Resend API
-const { Resend } = require('resend');
+import { Resend } from 'resend';
 
-// You'll need to replace this with your actual API key
-const resend = new Resend('your_api_key_here');
+// Using your actual API key
+const resend = new Resend('re_8vcX5TnR_3EKk1LYy8aJEQs9u7dvzKMkM');
 
 async function testResend() {
   try {
     console.log('Testing Resend API...');
     
-    // Test API key validity
+    // Test with fallback sender (no domain verification needed)
     const { data, error } = await resend.emails.send({
-      from: 'test@mgbmediagroup.com',
+      from: 'onboarding@resend.dev', // Using Resend's default sender
       to: ['mgbmediagroup@gmail.com'],
       subject: 'Test Email from MGB Website',
       html: '<p>This is a test email to verify Resend is working!</p>',

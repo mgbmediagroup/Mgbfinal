@@ -14,6 +14,7 @@ export function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +37,7 @@ export function Contact() {
 
       // Success
       setIsSubmitted(true);
+      setSubmitMessage('Message sent successfully! We\'ll get back to you soon.');
       setFormData({ 
         fullName: '', 
         company: '', 
@@ -47,11 +49,17 @@ export function Contact() {
       // Reset success message after 5 seconds
       setTimeout(() => {
         setIsSubmitted(false);
+        setSubmitMessage('');
       }, 5000);
 
     } catch (error) {
       console.error('Form submission error:', error);
-      alert('Failed to send message. Please try again or contact us directly at mgbmediagroup@gmail.com');
+      setSubmitMessage('Failed to send message. Please try again or contact us directly at mgbmediagroup@gmail.com');
+      
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitMessage('');
+      }, 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -208,6 +216,17 @@ export function Contact() {
                   placeholder={t('contact.tellMore')}
                 />
               </div>
+
+              {/* Success/Error Message */}
+              {submitMessage && (
+                <div className={`p-4 rounded-lg text-sm ${
+                  isSubmitted 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  {submitMessage}
+                </div>
+              )}
 
               {/* Submit button */}
               <div className="pt-2">
