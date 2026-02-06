@@ -13,7 +13,7 @@ export interface ContactFormData {
 export async function sendContactEmail(formData: ContactFormData) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'contact@mgbmediagroup.com', // This will be your verified domain
+      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev', // Fallback to Resend's default
       to: ['mgbmediagroup@gmail.com'], // Your email where you want to receive messages
       subject: `New Contact Form Submission from ${formData.fullName}`,
       html: `
