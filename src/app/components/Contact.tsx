@@ -15,13 +15,26 @@ export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch('/.netlify/functions/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+      // Success
       setIsSubmitted(true);
       setFormData({ 
         fullName: '', 
@@ -31,11 +44,17 @@ export function Contact() {
         message: '' 
       });
 
-      // Reset success message after 3 seconds
+      // Reset success message after 5 seconds
       setTimeout(() => {
         setIsSubmitted(false);
-      }, 3000);
-    }, 1500);
+      }, 5000);
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('Failed to send message. Please try again or contact us directly at mgbmediagroup@gmail.com');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
