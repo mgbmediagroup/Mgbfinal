@@ -54,7 +54,7 @@ Value: v=DMARC1; p=quarantine; rua=mailto:mgbmediagroup@gmail.com
 2. **Click "Site settings" → "Environment variables"**
 3. **Add new variable:**
    - **Key**: `RESEND_API_KEY`
-   - **Value**: `re_8vcX5TnR_3EKk1LYy8aJEQs9u7dvzKMkM` (your existing API key)
+   - **Value**: `[your_existing_resend_api_key]`
 
 **For local development:**
 1. **Copy `.env.example` to `.env.local`**
