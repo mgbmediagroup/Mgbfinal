@@ -1,12 +1,18 @@
 // Simple test script to check Resend API
 import { Resend } from 'resend';
 
-// Using your actual API key
-const resend = new Resend('re_8vcX5TnR_3EKk1LYy8aJEQs9u7dvzKMkM');
+// Using environment variable for security
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function testResend() {
   try {
     console.log('Testing Resend API...');
+    
+    if (!process.env.RESEND_API_KEY) {
+      console.error('❌ RESEND_API_KEY environment variable is not set');
+      console.log('Please set RESEND_API_KEY in your environment or .env.local file');
+      return;
+    }
     
     // Test with fallback sender (no domain verification needed)
     const { data, error } = await resend.emails.send({
