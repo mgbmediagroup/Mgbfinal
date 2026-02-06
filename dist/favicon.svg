@@ -1,0 +1,6 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" fill="#000000"/>
+  <!-- MGB Logo - Modern arrow/cursor design based on provided images -->
+  <path d="M8 6L24 22L20 26L12 18L8 22V6Z" fill="#FFFFFF"/>
+  <path d="M12 10L20 18L16 22L12 18V10Z" fill="#000000"/>
+</svg>
