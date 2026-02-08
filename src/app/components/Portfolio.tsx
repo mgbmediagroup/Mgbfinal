@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/app/contexts/TranslationContext';
+import { LazyImage } from '@/app/components/ui/LazyImage';
 import verticalFutureImage from '../../assets/36157d2c89a12ef778fad46849a5b9ac61af4df7.png';
 import ittEsMostImage from '../../assets/c9db3ba311e2575f64e2b1a927622c82fe26ed99.png';
 import terracoreImage from '../../assets/db20bc152c084762c5de57dcd523f3f2b21499a5.png';
@@ -172,7 +173,7 @@ export function Portfolio() {
                   }}
                 />
                 {project.image && (
-                  <img 
+                  <LazyImage
                     src={project.image} 
                     alt={project.title}
                     className={`w-full h-full transition-transform duration-500 group-hover:scale-105 relative z-10 ${

@@ -103,16 +103,17 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       return false
     }
 
-    const generateDotsInPolygon = (feature: any, dotSpacing = 16) => {
+    const generateDotsInPolygon = (feature: any, dotSpacing = 20) => { // Increased spacing from 16 to 20
       const dots: [number, number][] = []
       const bounds = d3.geoBounds(feature)
       const [[minLng, minLat], [maxLng, maxLat]] = bounds
 
-      const stepSize = dotSpacing * 0.08
+      const stepSize = dotSpacing * 0.1 // Increased step size
       let pointsGenerated = 0
+      const maxPoints = 500 // Limit points per feature
 
-      for (let lng = minLng; lng <= maxLng; lng += stepSize) {
-        for (let lat = minLat; lat <= maxLat; lat += stepSize) {
+      for (let lng = minLng; lng <= maxLng && pointsGenerated < maxPoints; lng += stepSize) {
+        for (let lat = minLat; lat <= maxLat && pointsGenerated < maxPoints; lat += stepSize) {
           const point: [number, number] = [lng, lat]
           if (pointInFeature(point, feature)) {
             dots.push(point)
@@ -122,8 +123,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       }
 
       console.log(
-        `[v0] Generated ${pointsGenerated} points for land feature:`,
-        feature.properties?.featurecla || "Land",
+        `[Globe] Generated ${pointsGenerated} points for feature`,
       )
       return dots
     }
@@ -281,17 +281,20 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
 
         landFeatures = await response.json()
 
-        // Generate dots for all land features
+        // Generate dots for all land features (limit total dots for performance)
         let totalDots = 0
+        const maxTotalDots = 3000 // Global limit
         landFeatures.features.forEach((feature: any) => {
-          const dots = generateDotsInPolygon(feature, 16)
-          dots.forEach(([lng, lat]) => {
+          if (totalDots >= maxTotalDots) return
+          const dots = generateDotsInPolygon(feature, 20)
+          const dotsToAdd = Math.min(dots.length, maxTotalDots - totalDots)
+          dots.slice(0, dotsToAdd).forEach(([lng, lat]) => {
             allDots.push({ lng, lat, visible: true })
             totalDots++
           })
         })
 
-        console.log(`[v0] Total dots generated: ${totalDots} across ${landFeatures.features.length} land features`)
+        console.log(`[Globe] Total dots: ${totalDots} across ${landFeatures.features.length} features`)
 
         render()
         setIsLoading(false)

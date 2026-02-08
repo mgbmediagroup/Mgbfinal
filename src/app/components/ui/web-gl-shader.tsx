@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 
 export function WebGLShader() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const sceneRef = useRef<{
     scene: THREE.Scene | null
     camera: THREE.OrthographicCamera | null
@@ -21,8 +22,24 @@ export function WebGLShader() {
     animationId: null,
   })
 
+  // Intersection Observer to only run when visible
   useEffect(() => {
-    if (!canvasRef.current) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!canvasRef.current || !isVisible) return
 
     const canvas = canvasRef.current
     const { current: refs } = sceneRef
@@ -35,7 +52,7 @@ export function WebGLShader() {
     `
 
     const fragmentShader = `
-      precision highp float;
+      precision mediump float;
       uniform vec2 resolution;
       uniform float time;
       uniform float xScale;
@@ -61,8 +78,12 @@ export function WebGLShader() {
 
     const initScene = () => {
       refs.scene = new THREE.Scene()
-      refs.renderer = new THREE.WebGLRenderer({ canvas })
-      refs.renderer.setPixelRatio(window.devicePixelRatio)
+      refs.renderer = new THREE.WebGLRenderer({ 
+        canvas,
+        antialias: false, // Disable for performance
+        powerPreference: "high-performance"
+      })
+      refs.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Cap pixel ratio
       refs.renderer.setClearColor(new THREE.Color(0x000000))
 
       refs.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1)
@@ -102,6 +123,8 @@ export function WebGLShader() {
     }
 
     const animate = () => {
+      if (!isVisible) return // Stop animation when not visible
+      
       if (refs.uniforms) refs.uniforms.time.value += 0.01
       if (refs.renderer && refs.scene && refs.camera) {
         refs.renderer.render(refs.scene, refs.camera)
@@ -133,7 +156,7 @@ export function WebGLShader() {
       }
       refs.renderer?.dispose()
     }
-  }, [])
+  }, [isVisible])
 
   return (
     <canvas

@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/app/components/ui/neon-button';
 import { InfiniteSlider } from "@/app/components/ui/infinite-slider";
-import { WebGLShader } from '@/app/components/ui/web-gl-shader';
+import { LazyWebGLShader } from '@/app/components/LazyComponents';
+import { LazyImage } from '@/app/components/ui/LazyImage';
 import { useTranslation } from '@/app/contexts/TranslationContext';
+import { Suspense } from 'react';
 import verticalGardenLogo from '../../assets/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
 import ittEsMostLogo from '../../assets/6f0721fa96378a2186aced2f147c30e405b146ed.png';
 import terracoreLogo from '../../assets/65dbf0b14781d9fe8bfa012cdfabe45b24ff694a.png';
@@ -24,7 +26,9 @@ export function Hero() {
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden h-screen max-h-[1100px]">
       {/* WebGL Shader Background - Clipped to Hero Section */}
       <div className="absolute inset-0 overflow-hidden">
-        <WebGLShader />
+        <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
+          <LazyWebGLShader />
+        </Suspense>
         {/* Bottom Gradient Fade */}
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
@@ -110,7 +114,7 @@ export function Hero() {
               height: "120px",
             }}
           >
-            <img 
+            <LazyImage 
               src={verticalGardenLogo} 
               alt="Vertical Garden KFT" 
               className="opacity-80 hover:opacity-100 transition-opacity"
@@ -124,7 +128,7 @@ export function Hero() {
               height: "120px",
             }}
           >
-            <img 
+            <LazyImage 
               src={ittEsMostLogo} 
               alt="ITT Es Most" 
               className="opacity-80 hover:opacity-100 transition-opacity"
@@ -138,7 +142,7 @@ export function Hero() {
               height: "120px",
             }}
           >
-            <img 
+            <LazyImage 
               src={terracoreLogo} 
               alt="Terracore" 
               className="opacity-80 hover:opacity-100 transition-opacity"
@@ -152,7 +156,7 @@ export function Hero() {
               height: "120px",
             }}
           >
-            <img 
+            <LazyImage 
               src={transaLogo} 
               alt="Transa" 
               className="opacity-80 hover:opacity-100 transition-opacity"
@@ -166,7 +170,7 @@ export function Hero() {
               height: "120px",
             }}
           >
-            <img 
+            <LazyImage 
               src={indecisiveLogo} 
               alt="Indecisive" 
               className="opacity-80 hover:opacity-100 transition-opacity"
@@ -180,7 +184,7 @@ export function Hero() {
               height: "120px",
             }}
           >
-            <img 
+            <LazyImage 
               src={in12Logo} 
               alt="IN12" 
               className="opacity-80 hover:opacity-100 transition-opacity"
