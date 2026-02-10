@@ -1,0 +1,13 @@
+# Netlify redirects for SPA routing
+# Handle client-side routing - redirect all non-file requests to index.html
+/*    /index.html   200
+
+# API routes should not be redirected
+/.netlify/functions/*  200
+
+# Static assets should not be redirected
+/assets/*  200
+/favicon*  200
+/apple-touch-icon*  200
+/web-app-manifest*  200
+/site.webmanifest  200

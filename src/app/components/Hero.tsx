@@ -3,6 +3,7 @@ import { Button } from '@/app/components/ui/neon-button';
 import { InfiniteSlider } from "@/app/components/ui/infinite-slider";
 import { LazyWebGLShader } from '@/app/components/LazyComponents';
 import { LazyImage } from '@/app/components/ui/LazyImage';
+import { ErrorBoundary } from '@/app/components/ErrorBoundary';
 import { useTranslation } from '@/app/contexts/TranslationContext';
 import { Suspense } from 'react';
 import verticalGardenLogo from '../../assets/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
@@ -26,9 +27,11 @@ export function Hero() {
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden h-screen max-h-[1100px]">
       {/* WebGL Shader Background - Clipped to Hero Section */}
       <div className="absolute inset-0 overflow-hidden">
-        <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
-          <LazyWebGLShader />
-        </Suspense>
+        <ErrorBoundary fallback={<div className="absolute inset-0 bg-black" />}>
+          <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
+            <LazyWebGLShader />
+          </Suspense>
+        </ErrorBoundary>
         {/* Bottom Gradient Fade */}
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none"

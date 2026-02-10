@@ -1,4 +1,5 @@
 import { LazyRotatingEarth } from "@/app/components/LazyComponents";
+import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import { useState, Suspense } from "react";
 import { useTranslation } from "@/app/contexts/TranslationContext";
 
@@ -195,20 +196,27 @@ export function GlobeSection() {
             
             {/* Globe */}
             <div className="relative z-10">
-              <Suspense fallback={
+              <ErrorBoundary fallback={
                 <div className="flex items-center justify-center">
-                  <div className="hidden lg:block w-[600px] h-[840px] bg-gray-900 rounded-full animate-pulse" />
-                  <div className="block lg:hidden w-[280px] h-[400px] bg-gray-900 rounded-full animate-pulse" />
+                  <div className="hidden lg:block w-[600px] h-[840px] bg-gray-900 rounded-full" />
+                  <div className="block lg:hidden w-[280px] h-[400px] bg-gray-900 rounded-full" />
                 </div>
               }>
-                {/* Desktop: 600x840, Mobile: smaller */}
-                <div className="hidden lg:block">
-                  <LazyRotatingEarth width={600} height={840} />
-                </div>
-                <div className="block lg:hidden">
-                  <LazyRotatingEarth width={280} height={400} />
-                </div>
-              </Suspense>
+                <Suspense fallback={
+                  <div className="flex items-center justify-center">
+                    <div className="hidden lg:block w-[600px] h-[840px] bg-gray-900 rounded-full animate-pulse" />
+                    <div className="block lg:hidden w-[280px] h-[400px] bg-gray-900 rounded-full animate-pulse" />
+                  </div>
+                }>
+                  {/* Desktop: 600x840, Mobile: smaller */}
+                  <div className="hidden lg:block">
+                    <LazyRotatingEarth width={600} height={840} />
+                  </div>
+                  <div className="block lg:hidden">
+                    <LazyRotatingEarth width={280} height={400} />
+                  </div>
+                </Suspense>
+              </ErrorBoundary>
             </div>
           </div>
         </div>
