@@ -11,11 +11,14 @@ export interface ContactFormData {
   message: string;
 }
 
-async function sendContactEmail(formData: ContactFormData) {
+async function sendContactEmail(formData: ContactFormData, retryCount = 0) {
+  const maxRetries = 2;
+  
   try {
     const { data, error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev', // Fallback to Resend's default
+      from: 'MGB Media Group <onboarding@resend.dev>', // Using Resend's verified domain for better deliverability
       to: ['mgbmediagroup@gmail.com'], // Your email where you want to receive messages
+      reply_to: formData.email, // Set reply-to as the form submitter's email
       subject: `New Contact Form Submission from ${formData.fullName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -39,6 +42,7 @@ async function sendContactEmail(formData: ContactFormData) {
           <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 8px; font-size: 12px; color: #666;">
             <p>This email was sent from the contact form on mgbmediagroup.com</p>
             <p>Sent at: ${new Date().toLocaleString()}</p>
+            <p><strong>Reply directly to this email to respond to ${formData.fullName}</strong></p>
           </div>
         </div>
       `,
@@ -55,17 +59,44 @@ async function sendContactEmail(formData: ContactFormData) {
         
         Sent from: mgbmediagroup.com
         Time: ${new Date().toLocaleString()}
+        
+        Reply directly to this email to respond to ${formData.fullName}
       `,
     });
 
     if (error) {
-      console.error('Resend error:', error);
-      throw new Error('Failed to send email');
+      console.error('Resend error details:', {
+        error,
+        formData: { ...formData, message: '[truncated]' }, // Log form data without full message for debugging
+        timestamp: new Date().toISOString()
+      });
+      throw new Error(`Email service error: ${error.message || 'Unknown error'}`);
     }
+
+    console.log('Email sent successfully:', {
+      emailId: data?.id,
+      to: 'mgbmediagroup@gmail.com',
+      from: formData.email,
+      timestamp: new Date().toISOString()
+    });
 
     return { success: true, data };
   } catch (error) {
     console.error('Contact form error:', error);
+    
+    // Retry logic for temporary failures
+    if (retryCount < maxRetries && error instanceof Error) {
+      const isRetryableError = error.message.includes('timeout') || 
+                              error.message.includes('network') ||
+                              error.message.includes('rate limit');
+      
+      if (isRetryableError) {
+        console.log(`Retrying email send (attempt ${retryCount + 1}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // Exponential backoff
+        return sendContactEmail(formData, retryCount + 1);
+      }
+    }
+    
     throw new Error('Failed to send contact email');
   }
 }
@@ -119,18 +150,27 @@ export const handler: Handler = async (event, context) => {
       };
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Validate email format (more comprehensive)
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     if (!emailRegex.test(formData.email)) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'Invalid email format' }),
+        body: JSON.stringify({ error: 'Please enter a valid email address' }),
       };
     }
 
+    // Sanitize input data
+    const sanitizedData = {
+      fullName: formData.fullName.trim(),
+      company: formData.company?.trim() || '',
+      email: formData.email.trim().toLowerCase(),
+      phone: formData.phone?.trim() || '',
+      message: formData.message.trim()
+    };
+
     // Send the email
-    const result = await sendContactEmail(formData);
+    const result = await sendContactEmail(sanitizedData);
 
     return {
       statusCode: 200,
