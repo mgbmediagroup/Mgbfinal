@@ -1,17 +1,15 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/app/components/ui/neon-button';
 import { InfiniteSlider } from "@/app/components/ui/infinite-slider";
-import { LazyWebGLShader } from '@/app/components/LazyComponents';
 import { LazyImage } from '@/app/components/ui/LazyImage';
-import { ErrorBoundary } from '@/app/components/ErrorBoundary';
 import { useTranslation } from '@/app/contexts/TranslationContext';
-import { Suspense } from 'react';
 import verticalGardenLogo from '../../assets/b8e0ffab0df61036f52bbc6a7dbd628607625ad1.png';
 import ittEsMostLogo from '../../assets/6f0721fa96378a2186aced2f147c30e405b146ed.png';
 import terracoreLogo from '../../assets/65dbf0b14781d9fe8bfa012cdfabe45b24ff694a.png';
 import transaLogo from '../../assets/1f2c6cbd4ba989ebafcc93e1dbccd479c77422e3.png';
 import indecisiveLogo from '../../assets/2312db1e9232307c130a38be542b58c48c042cbf.png';
 import in12Logo from '../../assets/3e7706533a795ffbcf0137b960921ddceceeebbf.png';
+import heroVideo from '../../assets/audi-car-video.mp4';
 
 export function Hero() {
   const scrollToContact = () => {
@@ -25,13 +23,20 @@ export function Hero() {
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden h-screen max-h-[1100px]">
-      {/* WebGL Shader Background - Clipped to Hero Section */}
+      {/* Video Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <ErrorBoundary fallback={<div className="absolute inset-0 bg-black" />}>
-          <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
-            <LazyWebGLShader />
-          </Suspense>
-        </ErrorBoundary>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: 'brightness(0.4)' }}
+        >
+          <source src={heroVideo} type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+          <div className="absolute inset-0 bg-black" />
+        </video>
         {/* Bottom Gradient Fade */}
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
